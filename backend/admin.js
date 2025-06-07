@@ -10,7 +10,7 @@ import Product from './models/productsModel.js';
 import Settlement from './models/settlement.js';
 import User from './models/users.js';
 import Order from './models/ordersModel.js';
-import OrderItem from './models/OrderItemsModel.js';
+import OrderItem from './models/orderItemsModel.js';
 import ContactMessage from './models/contactMessageModel.js';
 
 import dotenv from 'dotenv'
