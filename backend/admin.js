@@ -1,10 +1,10 @@
-import AdminJS from 'adminjs'
-import AdminJSExpress from '@adminjs/express'
-import AdminJSSequelize from '@adminjs/sequelize'
-import uploadFeature from '@adminjs/upload'
-import { ComponentLoader } from 'adminjs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import AdminJS from 'adminjs';
+import AdminJSExpress from '@adminjs/express';
+import AdminJSSequelize from '@adminjs/sequelize';
+import uploadFeature from '@adminjs/upload';
+import { ComponentLoader } from 'adminjs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import Product from './models/productsModel.js';
 import Settlement from './models/settlement.js';
@@ -13,22 +13,20 @@ import Order from './models/ordersModel.js';
 import OrderItem from './models/orderItemsModel.js';
 import ContactMessage from './models/contactMessageModel.js';
 
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+AdminJS.registerAdapter(AdminJSSequelize);
 
-AdminJS.registerAdapter(AdminJSSequelize)
+// יצירת ComponentLoader אחד בלבד
+const componentLoader = new ComponentLoader();
 
-// ✅ יצירת componentLoader
-const componentLoader = new ComponentLoader()
-
-// ✅ יצירת AdminJS עם componentLoader
 const adminJs = new AdminJS({
-  componentLoader,
   rootPath: '/admin',
+  componentLoader, // חשוב מאוד להעביר אותו ל-AdminJS
   resources: [
     {
       resource: Product,
@@ -41,20 +39,18 @@ const adminJs = new AdminJS({
       },
       features: [
         uploadFeature({
-          componentLoader, // ✅ קריטי!
+          componentLoader, // וגם להעביר אותו כאן ל-uploadFeature
           provider: {
             local: {
               bucket: path.join(__dirname, 'public/uploads'),
             },
           },
           properties: {
-            key: 'image_url',
-            file: 'uploadImage',
+            key: 'image_url',      // שדה ששומר את מיקום הקובץ במסד
+            file: 'uploadImage',   // שדה הקלט בקומפוננטת ה-upload
           },
-uploadPath: (record, filename) => {
-  const id = record?.params?.id || `temp-${Date.now()}`;
-  return `products/${id}/${filename}`;
-}       }),
+          uploadPath: (record, filename) => `products/${record.id}/${filename}`,
+        }),
       ],
     },
     {
@@ -131,12 +127,9 @@ uploadPath: (record, filename) => {
   },
 });
 
-adminJs.watch()
-
-
 const adminRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
   authenticate: async (email, password) => {
-if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASS) {
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASS) {
       return { email };
     }
     return null;
