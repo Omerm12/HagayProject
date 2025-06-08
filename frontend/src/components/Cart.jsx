@@ -6,7 +6,7 @@ import CartItem from "./CartItem";
 import OrderFlow from "./OrderFlow/OrderFlow";
 import { useApp } from "@/context/AppContext";
 
-const API_BASE = "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Cart({ onClose }) {
   const [cart, setCart] = useState([]);
@@ -22,14 +22,14 @@ export default function Cart({ onClose }) {
 
   const fetchCart = async () => {
     if (!user?.id) return;
-    const res = await fetch(`${API_BASE}/api/cart?user_id=${user.id}`);
+    const res = await fetch(`${API_URL}/api/cart?user_id=${user.id}`);
     const data = await res.json();
     setCart(data);
   };
 
   const updateItem = async (productId, newQty) => {
     if (!user?.id) return;
-    await fetch(`${API_BASE}/api/cart/update`, {
+    await fetch(`${API_URL}/api/cart/update`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_id: user.id, product_id: productId, quantity: newQty }),
@@ -39,7 +39,7 @@ export default function Cart({ onClose }) {
 
   const removeItem = async (productId) => {
     if (!user?.id) return;
-    await fetch(`${API_BASE}/api/cart/remove`, {
+    await fetch(`${API_URL}/api/cart/remove`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_id: user.id, product_id: productId }),
@@ -49,7 +49,7 @@ export default function Cart({ onClose }) {
 
   const clearCart = async () => {
     if (!user?.id) return;
-    await fetch(`${API_BASE}/api/cart/clear`, {
+    await fetch(`${API_URL}/api/cart/clear`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_id: user.id }),

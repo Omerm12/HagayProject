@@ -5,6 +5,8 @@ import { X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 export default function CheckoutModal({ onClose }) {
   const [cardNumber, setCardNumber] = useState("");
   const [idNumber, setIdNumber] = useState("");
@@ -51,7 +53,7 @@ console.log("total_price =", total_price); // לוודא שזה מספר
 };
 
     try {
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch(`${API_URL}/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ order, cartItems }),

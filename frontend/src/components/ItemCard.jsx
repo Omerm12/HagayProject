@@ -6,15 +6,17 @@ import { useApp } from "@/context/AppContext";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 const ItemCard = ({ item, onRemoveFromFavorites }) => {
-  const { cart, addToCart, removeFromCart, user, setIsLoginFlowOpen } = useApp();
+  const { cart, addToCart, decrementFromCart, user, setIsLoginFlowOpen } = useApp();
   const [isFavorite, setIsFavorite] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
     if (!user?.id) return;
-    fetch(`http://localhost:5000/api/favorites/user/${user.id}`)
+    fetch(`${API_URL}/api/favorites/user/${user.id}`)
       .then((res) => res.json())
       .then((data) => {
         setIsFavorite(data.some((fav) => fav.id === item.id));
@@ -25,8 +27,8 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
     if (!user?.id) return signIn();
 
     const url = isFavorite
-      ? `http://localhost:5000/api/favorites/remove`
-      : `http://localhost:5000/api/favorites/add`;
+      ? `${API_URL}/api/favorites/remove`
+      : `${API_URL}/api/favorites/add`;
 
     const res = await fetch(url, {
       method: "POST",
@@ -69,7 +71,7 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
         </button>
 
         <img
-  src={`http://localhost:5000/uploads/${item.image_url}`}
+  src={`${API_URL}/uploads/${item.image_url}`}
           alt={item.title}
           className="w-full h-70 object-contain p-2 mt-3"
         />
@@ -80,7 +82,7 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
         <div className="flex justify-center items-center mt-2 gap-2">
           <button
 onClick={() =>
-                        handleProtectedCartAction(() => removeFromCart(product.id))
+                        handleProtectedCartAction(() => decrementFromCart(item.id))
                       }             className="bg-green-500 hover:bg-green-600 text-white rounded-full p-2"
           >
             <Minus size={18} />
@@ -89,7 +91,7 @@ onClick={() =>
             {quantity}
           </div>
           <button
-                      onClick={() => handleProtectedCartAction(() => addToCart(product.id))}
+                      onClick={() => handleProtectedCartAction(() => addToCart(item.id))}
             className="bg-green-500 hover:bg-green-600 text-white rounded-full p-2"
           >
             <Plus size={18} />
@@ -108,7 +110,7 @@ onClick={() =>
       >
         <div className="w-[90px] h-[90px] flex-shrink-0">
         <img
-  src={`http://localhost:5000/uploads/${item.image_url}`}
+  src={`${API_URL}/uploads/${item.image_url}`}
   alt={item.title}
   className="w-full h-full object-contain rounded-md"
 />
@@ -137,7 +139,7 @@ onClick={() =>
           <div className="flex items-center gap-2 mt-auto self-end">
             <button
  onClick={() =>
-                        handleProtectedCartAction(() => removeFromCart(product.id))
+                        handleProtectedCartAction(() => decrementFromCart(item.id))
                       }              className="bg-green-500 hover:bg-green-600 text-white rounded-full p-1.5"
             >
               <Minus size={16} />
@@ -146,7 +148,7 @@ onClick={() =>
               {quantity}
             </span>
             <button
-                      onClick={() => handleProtectedCartAction(() => addToCart(product.id))}
+                      onClick={() => handleProtectedCartAction(() => addToCart(item.id))}
               className="bg-green-500 hover:bg-green-600 text-white rounded-full p-1.5"
             >
               <Plus size={16} />

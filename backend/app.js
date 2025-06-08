@@ -25,8 +25,10 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: "https://your-frontend.vercel.app",
-  credentials: true
+  origin: [
+    "https://your-frontend.vercel.app",
+    "http://localhost:3000"
+  ],  credentials: true
 }));app.use(express.json());
 
 app.use('/api/users', userRoutes);

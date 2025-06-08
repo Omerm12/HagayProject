@@ -5,6 +5,8 @@ import { signIn } from "next-auth/react";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation"; 
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 export default function VerifyModal({ phone, onClose }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +21,7 @@ export default function VerifyModal({ phone, onClose }) {
 
   if (res.ok) {
     try {
-      const userRes = await fetch(`http://localhost:5000/api/users/by-phone/${phone}`);
+      const userRes = await fetch(`${API_URL}/api/users/by-phone/${phone}`);
       if (!userRes.ok) throw new Error("שליפת משתמש נכשלה");
       const userData = await userRes.json();
 

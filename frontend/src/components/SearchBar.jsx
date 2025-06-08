@@ -1,22 +1,22 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Search, X, Plus, Minus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useApp } from "@/context/AppContext";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function SearchBar({ autoFocus = false }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const router = useRouter();
   const { data: session } = useSession();
-  const { cart, addToCart, removeFromCart , setIsLoginFlowOpen } = useApp();
+  const { cart, addToCart, removeFromCart, setIsLoginFlowOpen } = useApp();
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (query.length > 0) {
-        fetch(`http://localhost:5000/api/products/search?q=${encodeURIComponent(query)}`)
+        fetch(`${API_URL}/api/products/search?q=${encodeURIComponent(query)}`)
           .then((res) => res.json())
           .then((data) => {
             setResults(data);
@@ -31,14 +31,6 @@ export default function SearchBar({ autoFocus = false }) {
 
     return () => clearTimeout(delayDebounce);
   }, [query]);
-
-  const handleSearchPage = () => {
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
-      setQuery("");
-      setShowDropdown(false);
-    }
-  };
 
   const highlightMatch = (text) => {
     const regex = new RegExp(`(${query})`, "gi");
@@ -68,10 +60,9 @@ export default function SearchBar({ autoFocus = false }) {
           autoFocus={autoFocus}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearchPage()}
           dir="rtl"
         />
-        <Search className="w-4 h-4 text-green-800 ml-2 cursor-pointer" onClick={handleSearchPage} />
+        <Search className="w-4 h-4 text-green-800 ml-2 cursor-pointer" />
       </div>
 
       {/* תוצאות חיפוש */}

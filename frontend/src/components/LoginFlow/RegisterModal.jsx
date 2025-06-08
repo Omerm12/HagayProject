@@ -18,7 +18,7 @@ export default function RegisterDetailsModal({ phone, onClose, onGoToVerify }) {
   }, []);
 
  const handleSubmit = async () => {
-  const res = await fetch("http://localhost:5000/api/users/register", {
+  const res = await fetch(`${API_URL}/api/users/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ phone, ...form }),
@@ -26,7 +26,7 @@ export default function RegisterDetailsModal({ phone, onClose, onGoToVerify }) {
 
   const data = await res.json();
   if (res.ok) {
-    await fetch("http://localhost:5000/api/auth/send-otp", {
+    await fetch(`${API_URL}/api/auth/send-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ phone }),

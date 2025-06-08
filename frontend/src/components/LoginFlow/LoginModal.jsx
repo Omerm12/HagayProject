@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function LoginModal({ onClose, onGoToVerify, onGoToRegister }) {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
@@ -24,7 +26,7 @@ export default function LoginModal({ onClose, onGoToVerify, onGoToRegister }) {
 
     const data = await res.json();
     if (data.exists) {
-     await fetch("http://localhost:5000/api/auth/send-otp", {
+     await fetch(`${API_URL}/api/auth/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone }),

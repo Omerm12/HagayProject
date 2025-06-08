@@ -5,6 +5,7 @@ import ItemCard from "@/components/ItemCard";
 import { useApp } from "@/context/AppContext";
 
 const ITEMS_PER_PAGE = 15;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function FavoritesPage() {
   const { user } = useApp();
@@ -18,7 +19,7 @@ export default function FavoritesPage() {
 
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:5000/api/favorites/user/${user.id}`);
+        const res = await fetch(`${API_URL}/api/favorites/user/${user.id}`);
         const data = await res.json();
 
         if (Array.isArray(data)) {

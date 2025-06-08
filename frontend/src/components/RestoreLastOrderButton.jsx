@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useApp } from "@/context/AppContext";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 export default function RestoreLastOrderButton() {
   const { data: session } = useSession();
   const { user, fetchCart, addToCart, clearCart } = useApp();
@@ -20,7 +22,7 @@ export default function RestoreLastOrderButton() {
       }
 
       try {
-        const res = await fetch(`http://localhost:5000/api/orders/last?user_id=${user.id}`);
+        const res = await fetch(`${API_URL}/api/orders/last?user_id=${user.id}`);
         const data = await res.json();
         if (data.items?.length > 0) {
           setHasPreviousOrder(true);
@@ -42,7 +44,7 @@ export default function RestoreLastOrderButton() {
   const handleRestore = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/orders/last?user_id=${user.id}`);
+      const res = await fetch(`${API_URL}/api/orders/last?user_id=${user.id}`);
       const data = await res.json();
 
       if (!data?.items?.length) {

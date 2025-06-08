@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 export default function ShippingModal({ onClose, onSubmit }) {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -16,7 +18,7 @@ export default function ShippingModal({ onClose, onSubmit }) {
   const { saveShippingDetails } = useApp();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/settlements")
+    fetch(`${API_URL}/api/settlements`)
       .then((res) => res.json())
       .then(setSettlements)
       .catch(console.error);

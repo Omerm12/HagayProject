@@ -1,13 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function Locations() {
   const [settlements, setSettlements] = useState([]);
   const [query, setQuery] = useState("");
   const [result, setResult] = useState(null);
 
+
   useEffect(() => {
-    fetch("http://localhost:5000/api/settlements")
+    fetch(`${API_URL}/api/settlements`)
       .then((res) => res.json())
       .then((data) =>
         setSettlements(

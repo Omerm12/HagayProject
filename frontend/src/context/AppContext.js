@@ -3,7 +3,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
 const AppContext = createContext();
+
 export const useApp = () => useContext(AppContext);
 
 export const AppProvider = ({ children }) => {
@@ -43,7 +45,7 @@ export const AppProvider = ({ children }) => {
   const fetchCart = async () => {
     try {
       if (!user.id) return;
-      const res = await fetch(`http://localhost:5000/api/cart?user_id=${user.id}`);
+      const res = await fetch(`${API_URL}/api/cart?user_id=${user.id}`);
       if (!res.ok) throw new Error(`שגיאה בשרת: ${res.status}`);
       const data = await res.json();
       if (!Array.isArray(data)) throw new Error("התשובה מהשרת אינה מערך");
@@ -57,7 +59,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchSettlements = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/settlements");
+      const res = await fetch(`${API_URL}/api/settlements`);
       if (!res.ok) throw new Error(`שגיאה בשרת: ${res.status}`);
       const data = await res.json();
       setSettlements(data);
@@ -68,7 +70,7 @@ export const AppProvider = ({ children }) => {
 
   const addToCart = async (productId, quantity = 1) => {
     try {
-      const res = await fetch("http://localhost:5000/api/cart/add", {
+      const res = await fetch(`${API_URL}/api/cart/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id, product_id: productId, quantity }),
@@ -91,7 +93,7 @@ export const AppProvider = ({ children }) => {
 
   const updateCartItem = async (productId, quantity) => {
     try {
-      await fetch("http://localhost:5000/api/cart/update", {
+      await fetch(`${API_URL}/api/cart/update`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id, product_id: productId, quantity }),
@@ -104,7 +106,7 @@ export const AppProvider = ({ children }) => {
 
   const removeFromCart = async (productId) => {
     try {
-      await fetch("http://localhost:5000/api/cart/remove", {
+      await fetch(`${API_URL}/api/cart/remove`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id, product_id: productId }),
@@ -115,13 +117,37 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const decrementFromCart = async (productId) => {
+  try {
+    const item = cart.find((c) => c.product_id === productId);
+    if (!item) return;
+
+    const newQty = item.quantity - 1;
+
+    if (newQty <= 0) {
+      // אפשר למחוק את הפריט לגמרי
+      await removeFromCart(productId);
+    } else {
+      // אחרת מעדכן את הכמות
+      await fetch(`${API_URL}/api/cart/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: user.id, product_id: productId, quantity: newQty }),
+      });
+      await fetchCart();
+    }
+  } catch (err) {
+    console.error("שגיאה בהורדת כמות מהמוצר:", err);
+  }
+};
+
   const saveShippingDetails = (details) => {
     setShippingDetails(details);
   };
 
   const clearCart = async () => {
   try {
-    await fetch("http://localhost:5000/api/cart/clear", {
+    await fetch(`${API_URL}/api/cart/clear`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_id: user.id }),
@@ -179,6 +205,7 @@ export const AppProvider = ({ children }) => {
         closeShippingFlow,
         isLoginFlowOpen,
         setIsLoginFlowOpen, 
+        decrementFromCart,
       }}>
       {children}
     </AppContext.Provider>

@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { usePathname, useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 export default function Contact() {
   const pathname = usePathname();
   const router = useRouter();
@@ -13,22 +15,10 @@ export default function Contact() {
   const [message, setMessage] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    if (pathname === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      router.push("/");
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 100);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/contact", {
+      const res = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fullName, email, phone, message }),
@@ -50,17 +40,15 @@ export default function Contact() {
 
   return (
     <footer className="text-white px-6 pt-6 pb-3 bg-[url('/images/footerBackground1.png')] bg-cover bg-center">
-      <a
-        href="/"
-        onClick={handleClick}
-        className="w-50 h-50 bg-white rounded-full shadow-lg absolute -mt-27 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center overflow-hidden cursor-pointer"
+      <div    
+        className="w-50 h-50 bg-white rounded-full shadow-lg absolute -mt-27 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center overflow-hidden"
       >
         <img
           src="/images/logo-removebg-preview.png"
           alt="לוגו"
           className="w-full h-full object-contain scale-180"
         />
-      </a>
+      </div>
 
       <div className="max-w-9xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 mt-36 items-start text-right font-roboto text-white px-6">
         {/* פרטים */}

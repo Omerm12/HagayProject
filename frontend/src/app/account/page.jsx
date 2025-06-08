@@ -1,7 +1,10 @@
 "use client";
 
+"use client";
 import { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function AccountPage() {
   const { user, setUser } = useApp();
@@ -10,15 +13,13 @@ export default function AccountPage() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-
   const [newPhone, setNewPhone] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
 
   useEffect(() => {
     if (!user) return;
-
-    fetch(`http://localhost:5000/api/users/by-phone/${user.phone}`)
+    fetch(`${API_URL}/api/users/by-phone/${user.phone}`)
       .then((res) => res.json())
       .then((data) => {
         setFullName(data.full_name || "");
@@ -37,7 +38,7 @@ export default function AccountPage() {
     setMessage("");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const res = await fetch(`${API_URL}/api/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ full_name: fullName, email }),
@@ -56,7 +57,7 @@ export default function AccountPage() {
   const handleSendOtp = async () => {
     setMessage("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/send-otp", {
+      const res = await fetch(`${API_URL}/api/auth/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: newPhone }),
@@ -73,7 +74,7 @@ export default function AccountPage() {
   const handleVerifyAndUpdatePhone = async () => {
     setMessage("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/verify-otp", {
+      const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: newPhone, code: otp }),
@@ -82,7 +83,7 @@ export default function AccountPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
-      const updateRes = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const updateRes = await fetch(`${API_URL}/api/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: newPhone }),

@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const { user } = useApp();
@@ -12,7 +14,7 @@ export default function OrdersPage() {
   useEffect(() => {
     if (!user?.id) return;
 
-    fetch(`http://localhost:5000/api/orders/user/${user.id}`)
+    fetch(`${API_URL}/api/orders/user/${user.id}`)
       .then((res) => res.json())
       .then(setOrders)
       .catch(console.error);
@@ -35,7 +37,7 @@ export default function OrdersPage() {
 }, [isModalOpen]);
 
   const handleOpenItems = async (orderId) => {
-    const res = await fetch(`http://localhost:5000/api/orders/${orderId}/items`);
+    const res = await fetch(`${API_URL}/api/orders/${orderId}/items`);
     const items = await res.json();
     setSelectedOrderItems(items);
     setIsModalOpen(true);

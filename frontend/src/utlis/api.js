@@ -1,6 +1,8 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function fetchProductsByCategory(category) {
   try {
-    const res = await fetch(`http://localhost:5000/api/products?category=${encodeURIComponent(category)}`);
+    const res = await fetch(`${API_URL}/api/products?category=${encodeURIComponent(category)}`);
     if (!res.ok) throw new Error("Failed to fetch");
     return await res.json();
   } catch (error) {
@@ -10,7 +12,7 @@ export async function fetchProductsByCategory(category) {
 }
 
 export async function fetchSettlements() {
-  const res = await fetch('http://localhost:5000/api/settlements');
+  const res = await fetch(`${API_URL}/api/settlements`);
   if (!res.ok) throw new Error("Failed to fetch settlements");
   return await res.json();
 }
