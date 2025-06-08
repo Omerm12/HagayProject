@@ -26,7 +26,7 @@ dotenv.config();
 const app = express();
 app.use(cors({
   origin: [
-    "https://hagayproject-8mzhvtbug-omer-madhalas-projects.vercel.app",
+    "https://hagayproject.vercel.app/",
     "http://localhost:3000"
   ],
   credentials: true
