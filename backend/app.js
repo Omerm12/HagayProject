@@ -42,6 +42,27 @@ app.use('/api/favorites', favoritesRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/contact', contactRouter);
 
+app.post("/api/auth/check-user", async (req, res) => {
+  try {
+    console.log("Received POST request to /api/auth/check-user");
+
+    const { phone } = req.body;
+    console.log("Phone from request:", phone);
+
+    const userRes = await pool.query(
+      `SELECT * FROM users WHERE phone = $1`,
+      [phone]
+    );
+
+    console.log("Database response rows:", userRes.rows);
+
+    res.json({ exists: userRes.rows.length > 0 });
+  } catch (error) {
+    console.error("DB error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.use(adminJs.options.rootPath, adminRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
