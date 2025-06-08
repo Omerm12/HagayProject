@@ -22,11 +22,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config();
-
+ש
 const app = express();
 app.use(cors({
   origin: [
-    "https://hagayproject.vercel.app/",
+    "https://hagayproject.vercel.app",
     "http://localhost:3000"
   ],
   credentials: true
