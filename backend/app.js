@@ -26,11 +26,13 @@ dotenv.config();
 const app = express();
 app.use(cors({
   origin: [
-    "https://your-frontend.vercel.app",
+    "https://hagayproject-8mzhvtbug-omer-madhalas-projects.vercel.app",
     "http://localhost:3000"
-  ],  credentials: true
-}));app.use(express.json());
+  ],
+  credentials: true
+}));
 
+app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
