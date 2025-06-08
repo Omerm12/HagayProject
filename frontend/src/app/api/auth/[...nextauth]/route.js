@@ -4,6 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import dotenv from 'dotenv';
 dotenv.config();
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL 
+
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -16,7 +18,7 @@ const handler = NextAuth({
       async authorize(credentials) {
         const { phone, code } = credentials;
 
-        const res = await fetch("http://localhost:5000/api/auth/verify-otp", {
+        const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ phone, code }),
