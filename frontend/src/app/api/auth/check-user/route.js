@@ -1,5 +1,3 @@
-// app/api/auth/check-user/route.js
-
 import { NextResponse } from "next/server";
 import pool from "@/database/db.js";
 
@@ -13,6 +11,6 @@ export async function POST(request) {
     return NextResponse.json({ exists: userRes.rows.length > 0 });
   } catch (error) {
     console.error("DB error:", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
