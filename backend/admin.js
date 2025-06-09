@@ -22,10 +22,6 @@ const __dirname = path.dirname(__filename);
 // 🟢 יצירת ComponentLoader והגדרת הקומפוננטות
 const componentLoader = new ComponentLoader();
 
-componentLoader.add('UploadEditComponent', path.join(__dirname, 'components/UploadEdit.jsx'));
-componentLoader.add('UploadShowComponent', path.join(__dirname, 'components/UploadShow.jsx'));
-componentLoader.add('UploadListComponent', path.join(__dirname, 'components/UploadList.jsx'));
-
 AdminJS.registerAdapter(AdminJSSequelize);
 
 const adminJs = new AdminJS({
