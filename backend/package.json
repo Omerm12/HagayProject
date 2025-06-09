@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
-    "start": "node app.js",
+"start": "npm run bundle:components && node app.js",
     "import:settlements": "node scripts/import-settlements.js",
-    "init:schema": "node ./scripts/initSchema.js"
+    "init:schema": "node ./scripts/initSchema.js",
+      "bundle:components": "node bundle-components.js"
   },
   "keywords": [],
   "author": "",
