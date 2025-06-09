@@ -23,6 +23,7 @@ const __dirname = path.dirname(__filename);
 AdminJS.registerAdapter(AdminJSSequelize);
 
 const componentLoader = new ComponentLoader();
+const UploadShowComponent = 'UploadShowComponent';
 
 const adminJs = new AdminJS({
   rootPath: '/admin',
@@ -39,21 +40,22 @@ const adminJs = new AdminJS({
   },
       features: [
         uploadFeature({
-          componentLoader, // ✅ זה מה שהיה חסר!
-          provider: {
-            local: {
-              bucket: path.join(__dirname, 'public/uploads'),
-            },
-          },
-          properties: {
-            key: 'image_url',
-            file: 'uploadImage',
-          },
-          uploadPath: (record, filename) => `products/${record.id}/${filename}`,
-          validation: {
-            mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
-          },
-        }),
+  componentLoader,
+  provider: {
+    local: {
+      bucket: path.join(__dirname, 'public/uploads'),
+    },
+  },
+  properties: {
+    key: 'image_url',
+    file: 'uploadImage',
+    show: UploadShowComponent, // ✅ הוספת קומפוננטת התצוגה!
+  },
+  uploadPath: (record, filename) => `products/${record.id}/${filename}`,
+  validation: {
+    mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+  },
+}),
       ],
     },
     {

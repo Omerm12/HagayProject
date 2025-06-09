@@ -1,19 +1,17 @@
-// backend/components/UploadShow.jsx
-import React from 'react'
-import { BasePropertyProps } from 'adminjs'
+import React from "react";
 
-const UploadShow = (props) => {
-  const { record, property } = props
-  const imageUrl = record.params[property.name]
+const UploadShow = ({ property, record }) => {
+  const filePath = record?.params?.[property.name];
 
-  return imageUrl ? (
-    <div>
-      <img src={imageUrl} alt="תמונה" style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain' }} />
-      <p style={{ marginTop: '8px' }}>{imageUrl}</p>
-    </div>
-  ) : (
-    <p>אין תמונה</p>
-  )
-}
+  if (!filePath) return <p>לא הועלתה תמונה</p>;
 
-export default UploadShow
+  return (
+    <img
+      src={`/uploads/${filePath}`}
+      alt="תמונה"
+      style={{ maxWidth: '300px', borderRadius: '8px' }}
+    />
+  );
+};
+
+export default UploadShow;
