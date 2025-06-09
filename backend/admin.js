@@ -14,6 +14,9 @@ import Order from './models/ordersModel.js';
 import OrderItem from './models/orderItemsModel.js';
 import ContactMessage from './models/contactMessageModel.js';
 
+import fs from 'fs';
+
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -21,6 +24,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 AdminJS.registerAdapter(AdminJSSequelize);
+console.log("UploadShow.jsx exists?", fs.existsSync(path.join(__dirname, 'components/UploadShow.jsx')));
+
 
 const componentLoader = new ComponentLoader();
 const CustomUploadEditComponent = componentLoader.add(
