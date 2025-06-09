@@ -23,10 +23,20 @@ const __dirname = path.dirname(__filename);
 AdminJS.registerAdapter(AdminJSSequelize);
 
 const componentLoader = new ComponentLoader();
-const UploadShowComponent = 'UploadShowComponent';
-const UploadEditComponent = 'UploadEditComponent';
-const UploadListComponent = 'UploadListComponent';
+const CustomUploadEditComponent = componentLoader.add(
+  'CustomUploadEditComponent',
+  path.join(__dirname, 'components/UploadEdit.jsx')
+);
 
+const CustomUploadShowComponent = componentLoader.add(
+  'CustomUploadShowComponent',
+  path.join(__dirname, 'components/UploadShow.jsx')
+);
+
+const CustomUploadListComponent = componentLoader.add(
+  'CustomUploadListComponent',
+  path.join(__dirname, 'components/UploadList.jsx')
+);
 
 
 const adminJs = new AdminJS({
@@ -53,9 +63,9 @@ const adminJs = new AdminJS({
   properties: {
     key: 'image_url',
     file: 'uploadImage',
-    edit: UploadEditComponent,
-    show: UploadShowComponent,
-    list: UploadListComponent,
+    edit: CustomUploadEditComponent,
+    show: CustomUploadShowComponent,
+    list: CustomUploadListComponent,
   },
   uploadPath: (record, filename) => `products/${record.id}/${filename}`,
   validation: {
