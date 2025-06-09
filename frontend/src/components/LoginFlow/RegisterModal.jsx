@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function RegisterDetailsModal({ phone, onClose, onGoToVerify }) {
   const [form, setForm] = useState({
     full_name: "",
