@@ -2,7 +2,6 @@ import AdminJS from 'adminjs';
 import AdminJSExpress from '@adminjs/express';
 import AdminJSSequelize from '@adminjs/sequelize';
 import uploadFeature from '@adminjs/upload';
-import { ComponentLoader } from 'adminjs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,37 +20,35 @@ const __dirname = path.dirname(__filename);
 
 AdminJS.registerAdapter(AdminJSSequelize);
 
-// יצירת ComponentLoader אחד בלבד
-const componentLoader = new ComponentLoader();
-
 const adminJs = new AdminJS({
   rootPath: '/admin',
-  componentLoader, // חשוב מאוד להעביר אותו ל-AdminJS
   resources: [
     {
-      resource: Product,
-      options: {
-        properties: {
-          image_url: {
-            isVisible: { list: true, edit: false, show: true },
-          },
+       resource: Product,
+  options: {
+    properties: {
+      image_url: {
+        isVisible: { list: true, edit: false, show: true },
+      },
+    },
+  },
+  features: [
+    uploadFeature({
+      provider: {
+        local: {
+          bucket: path.join(__dirname, 'public/uploads'),
         },
       },
-      features: [
-        uploadFeature({
-          componentLoader, // וגם להעביר אותו כאן ל-uploadFeature
-          provider: {
-            local: {
-              bucket: path.join(__dirname, 'public/uploads'),
-            },
-          },
-          properties: {
-            key: 'image_url',      // שדה ששומר את מיקום הקובץ במסד
-            file: 'uploadImage',   // שדה הקלט בקומפוננטת ה-upload
-          },
-          uploadPath: (record, filename) => `products/${record.id}/${filename}`,
-        }),
-      ],
+      properties: {
+        key: 'image_url',      // שדה במסד
+        file: 'uploadImage',   // שדה בממשק
+      },
+      uploadPath: (record, filename) => `products/${record.id}/${filename}`,
+      validation: {
+        mimeTypes: ['image/png', 'image/jpeg', 'image/webp'], // ✅ רק סוגי קבצים מותרים
+      },
+    }),
+  ],
     },
     {
       resource: Settlement,
