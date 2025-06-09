@@ -37,23 +37,24 @@ const adminJs = new AdminJS({
       },
     },
   },
-  features: [
-    uploadFeature({
-      provider: {
-        local: {
-          bucket: path.join(__dirname, 'public/uploads'),
-        },
-      },
-      properties: {
-        key: 'image_url',      // שדה במסד
-        file: 'uploadImage',   // שדה בממשק
-      },
-      uploadPath: (record, filename) => `products/${record.id}/${filename}`,
-      validation: {
-        mimeTypes: ['image/png', 'image/jpeg', 'image/webp'], // ✅ רק סוגי קבצים מותרים
-      },
-    }),
-  ],
+      features: [
+        uploadFeature({
+          componentLoader, // ✅ זה מה שהיה חסר!
+          provider: {
+            local: {
+              bucket: path.join(__dirname, 'public/uploads'),
+            },
+          },
+          properties: {
+            key: 'image_url',
+            file: 'uploadImage',
+          },
+          uploadPath: (record, filename) => `products/${record.id}/${filename}`,
+          validation: {
+            mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+          },
+        }),
+      ],
     },
     {
       resource: Settlement,
