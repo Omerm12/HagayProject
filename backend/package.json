@@ -6,10 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
-    "start": "npm run bundle:components && node app.js",
+  "start": "node app.js",
     "import:settlements": "node scripts/import-settlements.js",
-    "init:schema": "node ./scripts/initSchema.js",
-    "bundle:components": "node bundle-components.js"
+    "init:schema": "node ./scripts/initSchema.js"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +34,7 @@
     "twilio": "^5.5.2"
   },
   "devDependencies": {
+    "@adminjs/bundler": "^3.0.0",
     "nodemon": "^3.1.10"
   }
 }

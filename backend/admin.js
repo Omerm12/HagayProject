@@ -5,8 +5,6 @@ import uploadFeature from '@adminjs/upload';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { ComponentLoader } from 'adminjs'; // ✅ חובה
-
 import Product from './models/productsModel.js';
 import Settlement from './models/settlement.js';
 import User from './models/users.js';
@@ -15,7 +13,9 @@ import OrderItem from './models/orderItemsModel.js';
 import ContactMessage from './models/contactMessageModel.js';
 
 import fs from 'fs';
+import { ComponentLoader } from 'adminjs';
 
+const componentLoader = new ComponentLoader();
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -24,29 +24,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 AdminJS.registerAdapter(AdminJSSequelize);
-console.log("UploadShow.jsx exists?", fs.existsSync(path.join(__dirname, 'components/UploadShow.jsx')));
-
-
-const componentLoader = new ComponentLoader();
-const CustomUploadEditComponent = componentLoader.add(
-  'CustomUploadEditComponent',
-  path.join(__dirname, 'components/UploadEdit.jsx')
-);
-
-const CustomUploadShowComponent = componentLoader.add(
-  'CustomUploadShowComponent',
-  path.join(__dirname, 'components/UploadShow.jsx')
-);
-
-const CustomUploadListComponent = componentLoader.add(
-  'CustomUploadListComponent',
-  path.join(__dirname, 'components/UploadList.jsx')
-);
 
 
 const adminJs = new AdminJS({
   rootPath: '/admin',
-  componentLoader,
   resources: [
     {
        resource: Product,
@@ -58,26 +39,23 @@ const adminJs = new AdminJS({
     },
   },
       features: [
-        uploadFeature({
-  componentLoader,
-  provider: {
-    local: {
-      bucket: path.join(__dirname, 'public/uploads'),
+  uploadFeature({
+    componentLoader,
+    provider: {
+      local: {
+        bucket: path.join(__dirname, 'public/uploads'),
+      },
     },
-  },
-  properties: {
-    key: 'image_url',
-    file: 'uploadImage',
-    edit: CustomUploadEditComponent,
-    show: CustomUploadShowComponent,
-    list: CustomUploadListComponent,
-  },
-  uploadPath: (record, filename) => `products/${record.id}/${filename}`,
-  validation: {
-    mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
-  },
-}),
-      ],
+    properties: {
+      key: 'image_url',
+      file: 'uploadImage',
+    },
+    uploadPath: (record, filename) => `products/${record.id}/${filename}`,
+    validation: {
+      mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+    },
+  }),
+],
     },
     {
       resource: Settlement,

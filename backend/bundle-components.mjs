@@ -1,7 +1,7 @@
-import { ComponentLoader } from 'adminjs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import fs from 'fs/promises';
+import { ComponentLoader } from 'adminjs/bundler';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,4 +16,4 @@ const outPath = path.join(__dirname, 'public/adminjs');
 await fs.mkdir(outPath, { recursive: true });
 await componentLoader.bundle(path.join(outPath, 'components.bundle.js'));
 
-console.log("✅ components.bundle.js created!");
+console.log('✅ components.bundle.js created!');
