@@ -44,6 +44,8 @@ app.use('/api/orders', ordersRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/contact', contactRouter);
+app.use('/admin/frontend/assets', express.static(path.join(__dirname, 'public/admin')));
+
 
 app.post("/api/auth/check-user", async (req, res) => {
   try {
