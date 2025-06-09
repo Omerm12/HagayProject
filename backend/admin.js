@@ -5,6 +5,8 @@ import uploadFeature from '@adminjs/upload';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import { ComponentLoader } from 'adminjs'; // ✅ חובה
+
 import Product from './models/productsModel.js';
 import Settlement from './models/settlement.js';
 import User from './models/users.js';
@@ -20,8 +22,11 @@ const __dirname = path.dirname(__filename);
 
 AdminJS.registerAdapter(AdminJSSequelize);
 
+const componentLoader = new ComponentLoader();
+
 const adminJs = new AdminJS({
   rootPath: '/admin',
+  componentLoader,
   resources: [
     {
        resource: Product,
