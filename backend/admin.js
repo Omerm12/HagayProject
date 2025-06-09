@@ -25,6 +25,8 @@ AdminJS.registerAdapter(AdminJSSequelize);
 const componentLoader = new ComponentLoader();
 const UploadShowComponent = 'UploadShowComponent';
 const UploadEditComponent = 'UploadEditComponent';
+const UploadListComponent = 'UploadListComponent';
+
 
 
 const adminJs = new AdminJS({
@@ -52,7 +54,8 @@ const adminJs = new AdminJS({
     key: 'image_url',
     file: 'uploadImage',
     edit: UploadEditComponent,
-    show: UploadShowComponent, // ✅ הוספת קומפוננטת התצוגה!
+    show: UploadShowComponent,
+    list: UploadListComponent,
   },
   uploadPath: (record, filename) => `products/${record.id}/${filename}`,
   validation: {
