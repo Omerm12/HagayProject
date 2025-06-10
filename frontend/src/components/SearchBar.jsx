@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Search, X, Plus, Minus } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useApp } from "@/context/AppContext";
@@ -10,9 +10,20 @@ export default function SearchBar({ autoFocus = false }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const inputRef = useRef(null);
+  const wrapperRef = useRef(null); // ✅ נדרש כדי לזהות לחיצה מחוץ
+
   const { data: session } = useSession();
   const { cart, addToCart, removeFromCart, setIsLoginFlowOpen } = useApp();
 
+  // ✅ פוקוס רק בצד לקוח (במקום autoFocus ישיר)
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [autoFocus]);
+
+  // ✅ חיפוש עם debounce
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (query.length > 0) {
@@ -32,6 +43,24 @@ export default function SearchBar({ autoFocus = false }) {
     return () => clearTimeout(delayDebounce);
   }, [query]);
 
+  useEffect(() => {
+  if (autoFocus && typeof window !== "undefined" && inputRef.current) {
+    inputRef.current.focus();
+  }
+}, [autoFocus]);
+
+  // ✅ סגירה אוטומטית של החיפוש בלחיצה מחוץ לרכיב
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setShowDropdown(false);
+        setQuery(""); // מוחק גם את מה שנכתב
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const highlightMatch = (text) => {
     const regex = new RegExp(`(${query})`, "gi");
     return text.replace(regex, `<mark class="bg-yellow-200 font-bold">$1</mark>`);
@@ -47,17 +76,17 @@ export default function SearchBar({ autoFocus = false }) {
   };
 
   return (
-    <div className="relative w-full text-right">
+    <div ref={wrapperRef} className="relative w-full text-right">
       {/* שורת החיפוש */}
       <div className="flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow w-full">
         {query && (
           <X className="w-4 h-4 text-gray-500 ml-2 cursor-pointer" onClick={() => setQuery("")} />
         )}
         <input
+          ref={inputRef}
           type="text"
           className="w-full outline-none text-right text-sm sm:text-base"
           placeholder="מה מחפשים?"
-          autoFocus={autoFocus}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           dir="rtl"

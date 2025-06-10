@@ -6,7 +6,7 @@ import { useApp } from "@/context/AppContext";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const ItemCard = ({ item, onRemoveFromFavorites }) => {
   const { cart, addToCart, decrementFromCart, user, setIsLoginFlowOpen } = useApp();
@@ -53,37 +53,31 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
     }
   };
 
-
   const quantity = cart.find((c) => c.product_id === item.id)?.quantity || 0;
 
   return (
     <>
-      {/* Desktop Card */}
-      <div className="hidden sm:block w-[295px] flex-shrink-0 rounded-xl overflow-hidden text-center p-4 relative shadow-xl bg-transparent border border-gray-200 hover:shadow-2xl transition">
+      {/* Desktop */}
+      <div className="hidden sm:flex flex-col w-full max-w-xs rounded-xl overflow-hidden text-center p-4 relative shadow-xl border border-gray-200 hover:shadow-2xl transition mx-auto">
         <button
           onClick={toggleFavorite}
-          className={`absolute top-3 left-3 p-1 rounded-full shadow cursor-pointer  ${
+          className={`absolute top-3 left-3 p-1 rounded-full shadow cursor-pointer ${
             isFavorite ? "bg-red-100 text-red-500" : "bg-gray-100 text-gray-500"
           } hover:scale-105 transition`}
           title={isFavorite ? "הסר ממועדפים" : "הוסף למועדפים"}
         >
           <Heart fill={isFavorite ? "currentColor" : "none"} size={20} />
         </button>
-
         <img
-  src={`${API_URL}${item.image_url}`}
+          src={`${API_URL}${item.image_url}`}
           alt={item.title}
-          className="w-full h-70 object-contain p-2 mt-3"
+          className="w-full h-52 object-contain p-2 mt-3"
         />
-        <h3 className="text-xl font-semibold text-green-900 mt-3">
-          {item.title}
-        </h3>
-
+        <h3 className="text-xl font-semibold text-green-900 mt-3">{item.title}</h3>
         <div className="flex justify-center items-center mt-2 gap-2">
           <button
-onClick={() =>
-                        handleProtectedCartAction(() => decrementFromCart(item.id))
-                      }             className="bg-green-500 hover:bg-green-600 text-white rounded-full p-2"
+            onClick={() => handleProtectedCartAction(() => decrementFromCart(item.id))}
+            className="bg-green-500 hover:bg-green-600 text-white rounded-full p-2"
           >
             <Minus size={18} />
           </button>
@@ -91,29 +85,28 @@ onClick={() =>
             {quantity}
           </div>
           <button
-                      onClick={() => handleProtectedCartAction(() => addToCart(item.id))}
+            onClick={() => handleProtectedCartAction(() => addToCart(item.id))}
             className="bg-green-500 hover:bg-green-600 text-white rounded-full p-2"
           >
             <Plus size={18} />
           </button>
         </div>
-
         <div className="text-md font-bold text-green-900 mt-2">
           ₪{item.price_per_unit} / {item.unit || "יחידה"}
         </div>
       </div>
 
-      {/* Mobile Card */}
+      {/* Mobile */}
       <div
         className="sm:hidden flex flex-row items-center w-[98%] p-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition gap-3"
         style={{ direction: "rtl" }}
       >
         <div className="w-[90px] h-[90px] flex-shrink-0">
-        <img
-  src={`${API_URL}/uploads/${item.image_url}`}
-  alt={item.title}
-  className="w-full h-full object-contain rounded-md"
-/>
+          <img
+            src={`${API_URL}${item.image_url}`}
+            alt={item.title}
+            className="w-full h-full object-contain rounded-md"
+          />
         </div>
 
         <div className="flex flex-col justify-between flex-1 h-full">
@@ -138,9 +131,8 @@ onClick={() =>
 
           <div className="flex items-center gap-2 mt-auto self-end">
             <button
- onClick={() =>
-                        handleProtectedCartAction(() => decrementFromCart(item.id))
-                      }              className="bg-green-500 hover:bg-green-600 text-white rounded-full p-1.5"
+              onClick={() => handleProtectedCartAction(() => decrementFromCart(item.id))}
+              className="bg-green-500 hover:bg-green-600 text-white rounded-full p-1.5"
             >
               <Minus size={16} />
             </button>
@@ -148,7 +140,7 @@ onClick={() =>
               {quantity}
             </span>
             <button
-                      onClick={() => handleProtectedCartAction(() => addToCart(item.id))}
+              onClick={() => handleProtectedCartAction(() => addToCart(item.id))}
               className="bg-green-500 hover:bg-green-600 text-white rounded-full p-1.5"
             >
               <Plus size={16} />

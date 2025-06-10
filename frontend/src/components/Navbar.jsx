@@ -94,7 +94,7 @@ export default function Navbar() {
           <X size={20} />
         </button>
         <div className="mt-3">
-  <SearchBar autoFocus />
+  <SearchBar  />
 </div>
       </div>
     </div>
