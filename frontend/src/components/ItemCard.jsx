@@ -71,7 +71,7 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
         </button>
 
         <img
-  src={`${API_URL}/uploads/${item.image_url}`}
+  src={`${API_URL}${item.image_url}`}
           alt={item.title}
           className="w-full h-70 object-contain p-2 mt-3"
         />
