@@ -16,6 +16,7 @@ import contactRouter  from './routes/contact.js';
 import uploadRoute from './routes/upload.js';
 
 import { adminJs, adminRouter } from './admin.js';
+
 import pool from './db.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -66,7 +67,7 @@ async function start() {
 app.use(adminJs.options.rootPath + '/frontend/assets', express.static(path.join(__dirname, '.adminjs')));
   app.use(adminJs.options.rootPath, adminRouter);
 
-  const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}${adminJs.options.rootPath}`);
   });
