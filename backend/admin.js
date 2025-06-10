@@ -2,10 +2,11 @@ import AdminJS from 'adminjs';
 import AdminJSExpress from '@adminjs/express';
 import AdminJSSequelize from '@adminjs/sequelize';
 import uploadFeature from '@adminjs/upload';
-import { ComponentLoader } from 'adminjs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+
+
+import { ComponentLoader } from 'adminjs'; // ✅ חובה
 
 import Product from './models/productsModel.js';
 import Settlement from './models/settlement.js';
@@ -14,48 +15,34 @@ import Order from './models/ordersModel.js';
 import OrderItem from './models/orderItemsModel.js';
 import ContactMessage from './models/contactMessageModel.js';
 
+import dotenv from 'dotenv';
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🟢 יצירת ComponentLoader והגדרת הקומפוננטות
-const componentLoader = new ComponentLoader();
-
 AdminJS.registerAdapter(AdminJSSequelize);
+
+const componentLoader = new ComponentLoader();
+const UploadImageComponent = componentLoader.add('UploadImageComponent', path.join(__dirname, 'components/UploadImage.jsx'));
 
 const adminJs = new AdminJS({
   rootPath: '/admin',
-  componentLoader, // 🟢 חובה לצרף ל־AdminJS הראשי
+  componentLoader,
   resources: [
     {
-      resource: Product,
-      options: {
-        properties: {
-          image_url: {
-            isVisible: { list: true, edit: false, show: true },
-          },
-        },
-      },
-      features: [
-        uploadFeature({
-          componentLoader, // 🟢 חשוב מאוד
-          provider: {
-            local: {
-              bucket: path.join(__dirname, 'public/uploads'),
-            },
-          },
-          properties: {
-            key: 'image_url',
-            file: 'uploadImage',
-          },
-          uploadPath: (record, filename) => `products/${record.id}/${filename}`,
-          validation: {
-            mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
-          },
-        }),
-      ],
+  resource: Product,
+  options: {
+    properties: {
+  image_url: {
+    components: {
+      edit: UploadImageComponent, // ✅ שימוש ישיר בשם שחזרת מה־add
     },
+    isVisible: { list: true, edit: true, show: true },
+  },
+},
+  },
+},
     {
       resource: Settlement,
       options: {
@@ -139,5 +126,7 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
   },
   cookiePassword: 'session-secret',
 });
+
+await adminJs.initialize();
 
 export { adminJs, adminRouter };

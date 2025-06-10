@@ -10,6 +10,7 @@ import cartRoutes from './routes/cart.js';
 import ordersRoutes from './routes/ordersRoutes.js';
 import favoritesRoutes from './routes/favorites.js';
 import contactRouter  from './routes/contact.js';
+import uploadRoute from './routes/upload.js';
 
 
 import { adminJs, adminRouter } from './admin.js';
@@ -44,7 +45,8 @@ app.use('/api/orders', ordersRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/contact', contactRouter);
-app.use('/admin/frontend/assets', express.static(path.join(__dirname, 'public/admin')));
+app.use(uploadRoute);
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 
 app.post("/api/auth/check-user", async (req, res) => {
