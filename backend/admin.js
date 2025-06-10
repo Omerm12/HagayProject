@@ -127,6 +127,4 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
   cookiePassword: 'session-secret',
 });
 
-await adminJs.initialize();
-
 export { adminJs, adminRouter };
