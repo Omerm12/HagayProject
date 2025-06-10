@@ -63,6 +63,7 @@ async function start() {
 
   // ⚠️ חובה להפעיל לפני listen כדי שהקומפוננטות ייבנו
   await adminJs.initialize();
+    app.use(adminJs.options.rootPath + '/frontend/assets', express.static(path.join(__dirname, '.adminjs')));
   app.use(adminJs.options.rootPath, adminRouter);
 
   const PORT = process.env.PORT || 5000;
