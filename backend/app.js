@@ -73,5 +73,6 @@ app.post("/api/auth/check-user", async (req, res) => {
 app.use(adminJs.options.rootPath, adminRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
+await adminJs.initialize(); 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
