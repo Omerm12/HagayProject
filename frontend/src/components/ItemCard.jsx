@@ -69,7 +69,7 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
           <Heart fill={isFavorite ? "currentColor" : "none"} size={20} />
         </button>
         <img
-          src={`${API_URL}${item.image_url}`}
+  src={item.image_url}
           alt={item.title}
           className="w-full h-52 object-contain p-2 mt-3"
         />

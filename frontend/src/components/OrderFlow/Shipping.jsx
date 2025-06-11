@@ -4,15 +4,16 @@ import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ShippingModal({ onClose, onSubmit }) {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState(""); // ✅ חדש
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
-  const [floor, setFloor] = useState(""); // ✅ חדש
+  const [floor, setFloor] = useState("");
   const [notes, setNotes] = useState("");
   const [settlements, setSettlements] = useState([]);
   const { saveShippingDetails } = useApp();
@@ -24,19 +25,29 @@ export default function ShippingModal({ onClose, onSubmit }) {
       .catch(console.error);
   }, []);
 
+  const isEmailValid = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleSubmit = () => {
-    if (!fullName || !phone || !city || !street || !houseNumber) {
-      alert("יש למלא את כל השדות החובה");
+    if (!fullName || !phone || !email || !city || !street || !houseNumber) {
+      alert("אנא מלא את כל השדות החובה");
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      alert("אנא הזן כתובת מייל חוקית");
       return;
     }
 
     saveShippingDetails({
       fullName,
       phone,
+      email, // ✅ נשלח לשמירה
       city,
       street,
       houseNumber,
-      floor, // ✅ הכנסנו את הקומה
+      floor,
       notes,
     });
 
@@ -61,6 +72,9 @@ export default function ShippingModal({ onClose, onSubmit }) {
         <label className="block text-sm font-semibold mb-1">מספר טלפון *</label>
         <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full border rounded-md px-3 py-2 mb-3" />
 
+        <label className="block text-sm font-semibold mb-1">אימייל *</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border rounded-md px-3 py-2 mb-3" />
+
         <label className="block text-sm font-semibold mb-1">עיר *</label>
         <select value={city} onChange={(e) => setCity(e.target.value)} className="w-full border rounded-md px-3 py-2 mb-3">
           <option value="">בחר עיר</option>
@@ -80,7 +94,6 @@ export default function ShippingModal({ onClose, onSubmit }) {
           </div>
         </div>
 
-        {/* ✅ שדה קומה */}
         <label className="block text-sm font-semibold mb-1">קומה</label>
         <input type="text" value={floor} onChange={(e) => setFloor(e.target.value)} className="w-full border rounded-md px-3 py-2 mb-3" />
 

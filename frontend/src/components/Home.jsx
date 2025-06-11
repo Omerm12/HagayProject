@@ -76,7 +76,7 @@ function Home() {
         </div>
 
         <div className="lg:w-1/2 w-full flex justify-center">
-          <div className="rounded-full overflow-hidden w-[70vw] sm:w-[90vw] max-w-[550px] h-[70vw] sm:h-[90vw] max-h-[550px] mb-5">
+          <div className="rounded-fullד overflow-hidden w-[70vw] sm:w-[90vw] max-w-[550px] h-[70vw] sm:h-[90vw] max-h-[550px] mb-5">
             <img
               src="/images/veg.png"
               alt="חסה"
