@@ -24,10 +24,8 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
   }, [user]);
 
   const toggleFavorite = async () => {
-if (!user?.id) {
-    setIsLoginFlowOpen(true); 
-  }
-  else {
+    if (!user?.id) return setIsLoginFlowOpen(true);
+
     const url = isFavorite
       ? `${API_URL}/api/favorites/remove`
       : `${API_URL}/api/favorites/add`;
@@ -44,7 +42,6 @@ if (!user?.id) {
         onRemoveFromFavorites(item.id);
       }
     }
-  }
   };
 
   const handleProtectedCartAction = (actionFn) => {
