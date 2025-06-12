@@ -103,7 +103,7 @@ const ItemCard = ({ item, onRemoveFromFavorites }) => {
       >
         <div className="w-[90px] h-[90px] flex-shrink-0">
           <img
-            src={`${API_URL}${item.image_url}`}
+  src={item.image_url}
             alt={item.title}
             className="w-full h-full object-contain rounded-md"
           />
