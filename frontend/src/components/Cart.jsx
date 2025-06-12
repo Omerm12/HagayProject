@@ -123,9 +123,9 @@ export default function Cart({ onClose }) {
           <button
            onClick={() => {
   if (!user?.id) {
-    setIsLoginFlowOpen(true); // נפתח את מודאל ההתחברות
+    setIsLoginFlowOpen(true); 
   } else {
-    openShippingFlow(); // אם מחובר - נפתח את שלב המשלוח
+    openShippingFlow(); 
   }
 }}
             className="w-full bg-orange-400 font-extrabold text-white py-4 sm:py-5 rounded text-xl sm:text-2xl"
