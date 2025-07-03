@@ -5,6 +5,7 @@ import Deals from '@/entities/Deals';
 import ItemCard from '@/components/ItemCard'; 
 import { Plus, ChevronLeft, ChevronRight, Minus } from 'lucide-react';
 import Recommended from '@/entities/Recommended';
+import products from '@/assets/products';
 
 function Home() {
 
@@ -15,45 +16,6 @@ function Home() {
       scrollRef.current.scrollBy({ left: direction === 'left' ? -300 : 300, behavior: 'smooth' });
     }
   };
-
-  const products = [
-    {
-      title: 'סלרי',
-      image: '/images/6ae4954a-6af0-4ee9-87d8-769d483de9ab.png',
-      price: 6,
-      badge: 'במבצע 3 ב-12 ₪',
-    },
-    {
-      title: 'סלרי',
-      image: '/images/6ae4954a-6af0-4ee9-87d8-769d483de9ab.png',
-      price: 6,
-      badge: 'במבצע 3 ב-12 ₪',
-    },
-    {
-      title: 'סלרי',
-      image: '/images/6ae4954a-6af0-4ee9-87d8-769d483de9ab.png',
-      price: 6,
-      badge: 'במבצע 3 ב-12 ₪',
-    },
-    {
-      title: 'כרוב סגול',
-      image: '/images/5893882d-2976-4d63-8046-e6212c6204f0.png',
-      price: 5,
-      badge: 'במבצע 3 ב-10 ₪',
-    },
-    {
-      title: 'בצל לבן',
-      image: '/images/6ae4954a-6af0-4ee9-87d8-769d483de9ab.png',
-      price: 5.9,
-      unit: 'ק"ג',
-    },
-    {
-      title: 'מלפפון',
-      image: '/images/5893882d-2976-4d63-8046-e6212c6204f0.png',
-      price: 8.9,
-      unit: 'ק"ג',
-    },
-  ];
 
    return (
     <div dir="ltr" className="min-h-screen bg-[#F6E8CA] px-4 py-10 overflow-x-hidden">
