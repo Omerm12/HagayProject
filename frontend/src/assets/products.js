@@ -1,16 +1,86 @@
-const products = Array.from({ length: 45 }, (_, i) => {
-  const isEven = i % 2 === 0;
-
-  return {
-    title: isEven ? 'סלרי' : 'מלפפון',
-    image: isEven
-      ? '/images/lettuce.jpeg'
-      : '/images/tomato.webp',
-    price: isEven ? 6 + (i % 3) : 8.9 - (i % 3),
-    ...(isEven
-      ? { badge: 'במבצע 3 ב-12 ₪' }
-      : { unit: 'ק"ג' }),
-  };
-});
+const products = [
+  {
+    title: "דלורית",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749719674/veggie_shop/toow2bj5axw7bzc04fsg.png",
+    price: 3.27,
+    unit: "pack",
+    weight: 0.75,
+    category: "ירקות",
+    on_sale: true,
+    badge: "במבצע 2 ב־20",
+  },
+  {
+    title: "מלפפון",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749718872/veggie_shop/jvvkjjlb5vhr6k1sggil.png",
+    price: 12.64,
+    unit: "pack",
+    weight: 0.59,
+    category: "ירקות",
+    on_sale: false,
+  },
+  {
+    title: "תפוח עץ",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749719709/veggie_shop/p4ki5ujjtm47w9vvbiny.png",
+    price: 4.16,
+    unit: "pack",
+    weight: 1.75,
+    category: "פירות",
+    on_sale: true,
+    badge: "במבצע 2 ב־20",
+  },
+  {
+    title: "עגבנייה",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749718950/veggie_shop/crivscrp9juxzwzqkave.png",
+    price: 9.80,
+    unit: "kg",
+    category: "ירקות",
+    on_sale: false,
+  },
+  {
+    title: "חציל",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749719497/veggie_shop/yjvz3c12uwmxkstzbre9.png",
+    price: 13.30,
+    unit: "kg",
+    category: "ירקות",
+    on_sale: true,
+    badge: "במבצע 2 ב־20",
+  },
+  {
+    title: "קישוא",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749719519/veggie_shop/avtvv3kfrofndxpnkeps.png",
+    price: 13.82,
+    unit: "pack",
+    weight: 0.52,
+    category: "ירקות",
+    on_sale: true,
+    badge: "במבצע 2 ב־20",
+  },
+  {
+    title: "גזר",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749719534/veggie_shop/uo9uffnyixqnnz814wif.png",
+    price: 10.40,
+    unit: "kg",
+    category: "ירקות",
+    on_sale: false,
+  },
+  {
+    title: "פלפל אדום",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749719558/veggie_shop/jlptdofwkbfhycl4kwtx.png",
+    price: 14.27,
+    unit: "unit",
+    category: "ירקות",
+    on_sale: true,
+    badge: "במבצע 2 ב־20",
+  },
+  {
+    title: "כרוב",
+    image: "https://res.cloudinary.com/dvwmz4xmy/image/upload/v1749719585/veggie_shop/fe2rtxfy0lcshzzv2k62.png",
+    price: 11.17,
+    unit: "pack",
+    weight: 0.70,
+    category: "ירקות",
+    on_sale: false,
+  },
+];
 
 export default products;

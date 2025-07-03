@@ -15,6 +15,9 @@ export default function Deals({ products }) {
     scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
   };
 
+  // סינון מוצרים במבצע בלבד
+  const saleProducts = products.filter((item) => item.on_sale);
+
   return (
     <div className="relative max-w-[1540px] mx-auto px-4 sm:px-6 lg:px-10 font-roboto">
       <h2 className="text-4xl sm:text-3xl md:text-4xl font-extrabold text-green-900 text-center mb-6 sm:mb-8 md:mb-10">
@@ -37,12 +40,12 @@ export default function Deals({ products }) {
         </button>
       </div>
 
-      {/* רשימת מוצרים */}
+      {/* רשימת מוצרים במבצע */}
       <div
         ref={scrollRef}
         className="flex flex-col md:flex-row md:overflow-x-auto gap-4 pb-4 scroll-smooth no-scrollbar"
       >
-        {products.map((item, idx) => (
+        {saleProducts.map((item, idx) => (
           <ProductCard key={idx} item={item} />
         ))}
       </div>
